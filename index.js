@@ -1,7 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
-const db = require('./queries')
+const dbqueries = require('./queries')
+
 const port = 3000
 
 app.use(bodyParser.json())
@@ -13,15 +14,15 @@ app.use(
 
 app.get('/', (request, response) => {
     response.json({
-        info: 'Node.JS, Express, and Posgres API'
+        info: 'Node.JS, Express, and Postgres API'
     })
 })
 
-app.get('/users', db.getUsers)
-app.get('/users/:id', db.getUserById)
-app.post('/users', db.createUser)
-app.put('/users/:id', db.updateUser)
-app.delete('/users/:id', db.deleteUser)
+app.get('/users', dbqueries.getUsers)
+app.get('/users/:id', dbqueries.getUserById)
+app.post('/users', dbqueries.createUser)
+app.put('/users/:id', dbqueries.updateUser)
+app.delete('/users/:id', dbqueries.deleteUser)
 
 app.listen(port, () =>{
     console.log(`App running on port ${port}.`)
