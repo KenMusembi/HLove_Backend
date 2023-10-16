@@ -281,4 +281,46 @@ module.exports = {
     createCountry,
     updateCountry,
     deleteCountry,
+
+    getGenders,
+    getGenderById,
+    createGender,
+    updateGender,
+    deleteGender,
+
+    getGrades,
+    getGradeById,
+    createGrade,
+    updateGrade,
+    deleteGrade,
+
+    getHIVStatus,
+    getHIVStatusById,
+    createHIVStatus,
+    updateHIVStatus,
+    deleteHIVStatus,
+
+    getInterests,
+    getInterestById,
+    createInterest,
+    updateInterest,
+    deleteInterest,
+
+    getOccupations,
+    getOccupationById,
+    createOccupation,
+    updateOccupation,
+    deleteOccupation,
+
+    getPersonalities,
+    getPersonalityById,
+    createPersonalities,
+    updatePersonality,
+    deletePersonality,
+
+    getSigns,
+    getSignById,
+    createSign,
+    updateSign,
+    deleteSign,
 }
