@@ -257,6 +257,449 @@ const deleteCountry = (request, response) => {
     })
 }
 
+//function to get all the countries
+const getGenders = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM gender ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single country by ID
+const getGenderById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM gender WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post a new gender
+const createGender = (request, response) => {
+    const { gender, active } = request.body
+  
+    dbconfig.pool.query('INSERT INTO gender (gender, active ) VALUES ($1, $2)', [gender, active ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`Gender added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update an existing gender
+const updateGender = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {gender, active } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE gender SET gender = $1, active = $2 WHERE id = $3',
+        [gender, active, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`Gender modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete a gender
+const deleteGender = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM gender WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`Gender deleted with ID: ${id}`)
+    })
+}
+
+
+//function to get all the grades
+const getGrades = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM grade ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single grade by ID
+const getGradeById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM grade WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post a new grade
+const createGrade = (request, response) => {
+    const { user_grading_id, user_graded_id, grade } = request.body
+  
+    dbconfig.pool.query('INSERT INTO grade (user_grading_id, user_graded_id, grade ) VALUES ($1, $2, $3)', [ user_grading_id, user_graded_id, grade ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`Grade added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update an existing grade
+const updateGrade = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {user_grading_id, user_graded_id, grade } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE grade SET user_grading_id = $1, user_graded_id = $2, grade = $3 WHERE id = $4',
+        [user_grading_id, user_graded_id, grade, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`Grade modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete a grade
+const deleteGrade = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM grade WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`Grade deleted with ID: ${id}`)
+    })
+}
+
+
+//function to get hiv_statuses
+const getHIVStatus = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM hiv_status ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single hiv_status by ID
+const getHIVStatusById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM hiv_status WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post a new hiv_status
+const createHIVStatus = (request, response) => {
+    const { user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link } = request.body
+  
+    dbconfig.pool.query('INSERT INTO hiv_status (user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link  ) VALUES ($1, $2, $3, $4)', [ user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`HIVStatus added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update an existing hiv_status
+const updateHIVStatus = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link  } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE hiv_status SET user_id = $1, hiv_status = $2, latest_vl_result = $3, yellow_card_card_picture_link = $4 WHERE id = $5',
+        [user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`HIVStatus modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete hiv_status
+const deleteHIVStatus = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM hiv_status WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`HIVStatus deleted with ID: ${id}`)
+    })
+}
+
+//function to get all the interests
+const getInterests = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM interest ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single interest by ID
+const getInterestById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM interest WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post a new interests
+const createInterest = (request, response) => {
+    const { interest, active } = request.body
+  
+    dbconfig.pool.query('INSERT INTO interest (interest, active ) VALUES ($1, $2)', [interest, active ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`Interest added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update interests
+const updateInterest = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {interest, active } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE interest SET interest = $1, active = $2 WHERE id = $3',
+        [interest, active, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`Interest modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete interest
+const deleteInterest = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM interest WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`Interest deleted with ID: ${id}`)
+    })
+}
+
+//function to get all the occupation
+const getOccupations = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM occupation ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single occupation by ID
+const getOccupationById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM occupation WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post a new occupation
+const createOccupation = (request, response) => {
+    const { occupation_name, active } = request.body
+  
+    dbconfig.pool.query('INSERT INTO occupation (occupation_name, active ) VALUES ($1, $2)', [occupation_name, active ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`Occupation added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update occupation
+const updateOccupation = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {occupation_name, active } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE occupation SET occupation_name = $1, active = $2 WHERE id = $3',
+        [interest, active, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`Occupation modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete occupation
+const deleteOccupation = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM occupation WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`Occupation deleted with ID: ${id}`)
+    })
+}
+
+//function to get all the personalities
+const getPersonalities = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM personalities ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single personality by ID
+const getPersonalityById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM personalities WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post a personalities
+const createPersonality = (request, response) => {
+    const { personality, active } = request.body
+  
+    dbconfig.pool.query('INSERT INTO personalities (personality, active ) VALUES ($1, $2)', [personality, active ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`Personality added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update personalities
+const updatePersonality = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {personality, active } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE personalities SET personality = $1, active = $2 WHERE id = $3',
+        [personality, active, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`Personality modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete personalities
+const deletePersonality = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM personalities WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`Personality deleted with ID: ${id}`)
+    })
+}
+
+//function to get all the signs
+const getSigns = (request, response) => {
+    dbconfig.pool.query('SELECT * FROM sings ORDER BY id ASC', (error, results) =>{
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to get a single sign by ID
+const getSignById = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('SELECT * FROM signs WHERE id = $1', [id], (error, results) => {
+        if (error){
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
+//function to post new sign
+const createSign = (request, response) => {
+    const { sign, active } = request.body
+  
+    dbconfig.pool.query('INSERT INTO signs (sign, active ) VALUES ($1, $2)', [sign, active ], (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(201).send(`Sign added with ID: ${results.insertId}`)
+    })
+  }
+
+//function to update signs
+const updateSign = (request, response) => {
+    const id = parseInt(request.params.id)
+    const {sign, active } = request.body
+
+    dbconfig.pool.query(
+        'UPDATE signs SET sign = $1, active = $2 WHERE id = $3',
+        [sign, active, id],
+        (error, results) => {
+            if(error){
+                throw error
+            }
+            response.status(200).send(`Sign modified with ID: ${id}`)
+        }
+    )
+}
+
+//function to delete signs
+const deleteSign = (request, response) => {
+    const id = parseInt(request.params.id)
+
+    dbconfig.pool.query('DELETE FROM signs WHERE id = $1', [id], (error, results)=>{
+        if (error){
+            throw error
+        }
+        response.status(200).send(`Sign deleted with ID: ${id}`)
+    })
+}
+
 module.exports = {
     getUsers,
     getUserById,
@@ -314,7 +757,7 @@ module.exports = {
 
     getPersonalities,
     getPersonalityById,
-    createPersonalities,
+    createPersonality,
     updatePersonality,
     deletePersonality,
 
