@@ -409,9 +409,9 @@ const getHIVStatusById = (request, response) => {
 
 //function to post a new hiv_status
 const createHIVStatus = (request, response) => {
-    const { user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link } = request.body
+    const { user_id, hiv_status, latest_vl_result, yellow_card_picture_link } = request.body
   
-    dbconfig.pool.query('INSERT INTO hiv_status (user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link  ) VALUES ($1, $2, $3, $4)', [ user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link ], (error, results) => {
+    dbconfig.pool.query('INSERT INTO hiv_status (user_id, hiv_status, latest_vl_result, yellow_card_picture_link  ) VALUES ($1, $2, $3, $4)', [ user_id, hiv_status, latest_vl_result, yellow_card_picture_link ], (error, results) => {
       if (error) {
         throw error
       }
@@ -422,11 +422,11 @@ const createHIVStatus = (request, response) => {
 //function to update an existing hiv_status
 const updateHIVStatus = (request, response) => {
     const id = parseInt(request.params.id)
-    const {user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link  } = request.body
+    const {user_id, hiv_status, latest_vl_result, yellow_card_picture_link  } = request.body
 
     dbconfig.pool.query(
-        'UPDATE hiv_status SET user_id = $1, hiv_status = $2, latest_vl_result = $3, yellow_card_card_picture_link = $4 WHERE id = $5',
-        [user_id, hiv_status, latest_vl_result, yellow_card_card_picture_link, id],
+        'UPDATE hiv_status SET user_id = $1, hiv_status = $2, latest_vl_result = $3, yellow_card_picture_link = $4 WHERE id = $5',
+        [user_id, hiv_status, latest_vl_result, yellow_card_picture_link, id],
         (error, results) => {
             if(error){
                 throw error
@@ -639,7 +639,7 @@ const deletePersonality = (request, response) => {
 
 //function to get all the signs
 const getSigns = (request, response) => {
-    dbconfig.pool.query('SELECT * FROM sings ORDER BY id ASC', (error, results) =>{
+    dbconfig.pool.query('SELECT * FROM signs ORDER BY id ASC', (error, results) =>{
         if (error){
             throw error
         }

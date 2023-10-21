@@ -60,11 +60,11 @@ app.put('/grades/:id', dbqueries.updateGrade)
 app.delete('/grades/:id', dbqueries.deleteGrade)
 
 //routes to hiv_status crud
-app.get('/hiv-status', dbqueries.getHIVStatus)
-app.get('/hiv-status/:id', dbqueries.getHIVStatusById)
-app.post('/hiv-status', dbqueries.createHIVStatus)
-app.put('/hiv-status/:id', dbqueries.updateHIVStatus)
-app.delete('/hiv-status/:id', dbqueries.deleteHIVStatus)
+app.get('/hivstatus', dbqueries.getHIVStatus)
+app.get('/hivstatus/:id', dbqueries.getHIVStatusById)
+app.post('/hivstatus', dbqueries.createHIVStatus)
+app.put('/hivstatus/:id', dbqueries.updateHIVStatus)
+app.delete('/hivstatus/:id', dbqueries.deleteHIVStatus)
 
 //routes to interest crud
 app.get('/interests', dbqueries.getInterests)
@@ -90,10 +90,10 @@ app.delete('/personalities/:id', dbqueries.deletePersonality)
 
 //routes to signs crud
 app.get('/signs', dbqueries.getSigns)
-app.get('/signs/:id', dbqueries.getSignsById)
-app.post('/signs', dbqueries.createSigns)
-app.put('/signs/:id', dbqueries.updateSigns)
-app.delete('/signs/:id', dbqueries.deleteSigns)
+app.get('/signs/:id', dbqueries.getSignById)
+app.post('/signs', dbqueries.createSign)
+app.put('/signs/:id', dbqueries.updateSign)
+app.delete('/signs/:id', dbqueries.deleteSign)
 
 app.listen(port, () =>{
     console.log(`HLove running on port ${port}.`)
