@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+    postgresdb:
+      image: postgres
+      restart: unless-stopped
+      env_file: ./.env
+      environment:
+        - POSTGRES_USER=$DB_USER
+        - POSTGRES_PASSWORD=$DB_PASSWORD
+        - POSTGRES_DB=$DB_NAME
+      ports:
+        - $DOCKER_DB_PORT:$LOCAL_DB_PORT
+      expose:
+        - "5432"
+      volumes:
+        - ./db:/var/lib/postgresql/data
+      networks:
+        - hlove-network
+    pgadmin:
+      image: dpage/pgadmin4
+      ports:
+        - 5433:80/tcp      
+      environment:
+        - PGADMIN_DEFAULT_EMAIL=kenmusembi21@gmail.com
+        - PGADMIN_DEFAULT_PASSWORD=postgres
+        - PGADMIN_LISTEN_PORT=5433   
+    app:
+      depends_on:
+        - postgresdb
+      #build: ./hlove-app #there has to be a docker file here that is then built
+      image: node:18-alpine
+      command: sh -c "cd hlove-app && npm install && npm start"      
+      working_dir: /hlove-app
+      restart: unless-stopped
+      env_file: ./.env
+      expose:        
+        - "3000"
+      ports:
+        - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+      environment:
+      - DB_HOST=postgresdb
+      - DB_USER=$DB_USER
+      - DB_PASSWORD=$DB_PASSWORD
+      - DB_NAME=$DB_NAME
+      - DB_PORT=$DOCKER_DB_PORT
+      stdin_open: true
+      tty: true
+      volumes:
+        - ./:/hlove-app
+      networks:
+        - hlove-network
+    
+volumes:
+  db:    
+
+networks:
+  hlove-network:
+    driver: bridge
+  

@@ -1,1 +1,4 @@
-/dbconfig.js
+/hlove-app/package-lock.json
+/.env
+/hlove-app/node_modules
+/db
