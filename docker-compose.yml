@@ -10,7 +10,7 @@ services:
         - POSTGRES_PASSWORD=$DB_PASSWORD
         - POSTGRES_DB=$DB_NAME
       ports:
-        - $DOCKER_DB_PORT:$LOCAL_DB_PORT
+        - "$DOCKER_DB_PORT:$LOCAL_DB_PORT"
       expose:
         - "5432"
       volumes:
@@ -20,7 +20,7 @@ services:
     pgadmin:
       image: dpage/pgadmin4
       ports:
-        - 5433:80/tcp      
+        - "5433:80/tcp"
       environment:
         - PGADMIN_DEFAULT_EMAIL=kenmusembi21@gmail.com
         - PGADMIN_DEFAULT_PASSWORD=postgres
@@ -37,7 +37,7 @@ services:
       expose:        
         - "3000"
       ports:
-        - $NODE_LOCAL_PORT:$NODE_DOCKER_PORT
+        - "$NODE_LOCAL_PORT:$NODE_DOCKER_PORT"
       environment:
       - DB_HOST=postgresdb
       - DB_USER=$DB_USER
