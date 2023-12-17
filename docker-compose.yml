@@ -31,7 +31,7 @@ services:
       #build: ./hlove-app #there has to be a docker file here that is then built
       image: node:18-alpine
       command: sh -c "cd hlove-app && npm install && npm start"      
-      working_dir: /hlove-app
+      working_dir: /
       restart: unless-stopped
       env_file: ./.env
       expose:        
