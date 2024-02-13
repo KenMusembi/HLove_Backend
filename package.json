@@ -1,18 +1,27 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@kenmusembi/hlove_backend",
+  "version": "0.0.1",
+  "description": "We can easily run the whole with only a single command:\r ```bash\r docker compose up\r ```",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "KenMusembi",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "pg": "^8.11.3",
     "dotenv": "^10.0.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KenMusembi/HLove_Backend.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KenMusembi/HLove_Backend/issues"
+  },
+  "homepage": "https://github.com/KenMusembi/HLove_Backend#readme"
 }
