@@ -21,23 +21,7 @@ services:
       volumes:
         - ./db:/var/lib/postgresql/data
       networks:
-        - hlove-network
-
-    # pgadmin:
-    #   image: dpage/pgadmin4
-    #   restart: always
-    #   ports:
-    #     - "5430:$LOCAL_DB_PORT"
-    #   healthcheck:
-    #     test:
-    #       - CMD
-    #       - curl
-    #       - "-f"
-    #       - "http://localhost:5433"  
-    #   environment:
-    #     - PGADMIN_DEFAULT_EMAIL=kenmusembi21@gmail.com
-    #     - PGADMIN_DEFAULT_PASSWORD=postgres
-    #     - PGADMIN_LISTEN_PORT=5433  
+        - hlove-network    
 
     app:
       depends_on:
@@ -66,19 +50,13 @@ services:
         retries: 5        
         timeout: 10s  
       volumes:
-        - ./:/hlove
-        # - "./:/var/www/html"
+        - ./:/hlove        
       networks:
         - hlove-network
     
 volumes:
   db: ~
-  hlove:
-    # name: hlove
-    # driver_opts:
-    #   o: bind
-    #   device: /run/desktop/mnt/host/d/C:/Projects/HLove_Backend
-    #   type: none    
+  hlove:     
 
 networks:
   hlove-network:
