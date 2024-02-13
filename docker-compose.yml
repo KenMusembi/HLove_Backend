@@ -2,9 +2,14 @@ version: '3.8'
 
 services:
     postgresdb:
-      image: postgres
-      restart: unless-stopped
+      image: postgres:16-alpine
+      restart: always
       env_file: ./.env
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 5s
+        timeout: 10s
+        retries: 5
       environment:
         - POSTGRES_USER=$DB_USER
         - POSTGRES_PASSWORD=$DB_PASSWORD
@@ -17,23 +22,32 @@ services:
         - ./db:/var/lib/postgresql/data
       networks:
         - hlove-network
-    pgadmin:
-      image: dpage/pgadmin4
-      ports:
-        - "5433:80/tcp"
-      environment:
-        - PGADMIN_DEFAULT_EMAIL=kenmusembi21@gmail.com
-        - PGADMIN_DEFAULT_PASSWORD=postgres
-        - PGADMIN_LISTEN_PORT=5433   
+
+    # pgadmin:
+    #   image: dpage/pgadmin4
+    #   restart: always
+    #   ports:
+    #     - "5430:$LOCAL_DB_PORT"
+    #   healthcheck:
+    #     test:
+    #       - CMD
+    #       - curl
+    #       - "-f"
+    #       - "http://localhost:5433"  
+    #   environment:
+    #     - PGADMIN_DEFAULT_EMAIL=kenmusembi21@gmail.com
+    #     - PGADMIN_DEFAULT_PASSWORD=postgres
+    #     - PGADMIN_LISTEN_PORT=5433  
+
     app:
       depends_on:
         - postgresdb
       #build: ./hlove-app #there has to be a docker file here that is then built
       image: node:18-alpine
-      command: sh -c "cd hlove-app && npm install && npm start"      
+      command: sh -c "cd hlove && npm install && npm start"      
       working_dir: /
-      restart: unless-stopped
-      env_file: ./.env
+      restart: always
+      env_file: ./.env            
       expose:        
         - "3000"
       ports:
@@ -46,13 +60,25 @@ services:
       - DB_PORT=$DOCKER_DB_PORT
       stdin_open: true
       tty: true
+      healthcheck:
+        test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+        interval: 5s
+        retries: 5        
+        timeout: 10s  
       volumes:
-        - ./:/hlove-app
+        - ./:/hlove
+        # - "./:/var/www/html"
       networks:
         - hlove-network
     
 volumes:
-  db:    
+  db: ~
+  hlove:
+    # name: hlove
+    # driver_opts:
+    #   o: bind
+    #   device: /run/desktop/mnt/host/d/C:/Projects/HLove_Backend
+    #   type: none    
 
 networks:
   hlove-network:
