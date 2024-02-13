@@ -24,4 +24,7 @@
     "url": "https://github.com/KenMusembi/HLove_Backend/issues"
   },
   "homepage": "https://github.com/KenMusembi/HLove_Backend#readme"
+  "publishConfig": {
+    "@KenMusembi:registry": "https://npm.pkg.github.com"
+  }
 }
