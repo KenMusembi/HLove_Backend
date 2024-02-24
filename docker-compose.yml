@@ -27,7 +27,7 @@ services:
       depends_on:
         - postgresdb
       #build: ./hlove-app #there has to be a docker file here that is then built
-      image: node:18-alpine
+      image: ghcr.io/kenmusembi/hlove_backend:${IMAGE_VERSION}
       command: sh -c "cd hlove && npm install && npm start"      
       working_dir: /
       restart: always

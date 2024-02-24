@@ -1,4 +1,4 @@
-/hlove-app/package-lock.json
+/package-lock.json
 /.env
-/hlove-app/node_modules
+/node_modules
 /db
