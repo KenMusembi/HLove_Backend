@@ -1,6 +1,20 @@
 version: '3.8'
 
 services:
+    trafik:
+      # The official v3 Traefik docker image
+      image: traefik:v3.1
+      # Enables the web UI and tells Traefik to listen to docker
+      command: --api.insecure=true --providers.docker
+      ports:
+        # The HTTP port
+        - "80:80"
+        # The Web UI (enabled by --api.insecure=true)
+        - "8080:8080"
+      volumes:
+        # So that Traefik can listen to the Docker events
+        - /var/run/docker.sock:/var/run/docker.sock
+
     postgresdb:
       image: postgres:16-alpine
       restart: always
@@ -19,7 +33,7 @@ services:
       expose:
         - "5432"
       volumes:
-        - db:/var/lib/postgresql/data
+        - ./db:/var/lib/postgresql/data
       networks:
         - hlove-network    
 
@@ -53,6 +67,8 @@ services:
         - ./:/hlove        
       networks:
         - hlove-network
+      labels:
+      - "traefik.http.routers.app.rule=Host(`app.docker.localhost`)"  
     
 volumes:
   db: ~
