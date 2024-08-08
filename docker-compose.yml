@@ -6,17 +6,34 @@ services:
       image: traefik:v3.1
       # Enables the web UI and tells Traefik to listen to docker
       command: 
-       - "--api.insecure=true" # Enable Traefik dashboard on /api
-       - "--providers.docker=true" # Enable Docker provider
-       - "--entrypoints.web.address=:80" # HTTP entry point
-       - "--entrypoints.websecure.address=:443" # HTTPS entry point
+       - "--log.level=DEBUG"
+       - "--api.insecure=true"
+       - "--providers.docker=true"
+       - "--providers.docker.exposedbydefault=false"
+       - "--entrypoints.web.address=:80"
+       - "--entrypoints.websecure.address=:443"
+       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+       - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+       - "--entrypoints.websecure.http.tls=true" # Enable TLS for the websecure entrypoint
+      restart: unless-stopped 
       ports:
         - "80:80" # HTTP
         - "443:443" # HTTPS        
-        - "8080:8080" # The Web UI (enabled by --api.insecure=true)
+        - "8080:8080" # The Web UI (enabled by --api.insecure=true)           
+      networks:
+        - web
       volumes:
         # So that Traefik can listen to the Docker events
         - /var/run/docker.sock:/var/run/docker.sock
+        - ./certs:/certs # Mount the directory with your certificates
+        - ./traefik.yml:/etc/tls
+      labels:
+      - traefik.enable=true
+      - traefik.http.routers.traefik.entrypoints=web
+      - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.traefik.service=api@internal      
+      - traefik.docker.network=web   
 
     postgresdb:
       image: postgres:16-alpine
@@ -36,13 +53,14 @@ services:
       expose:
         - "5432"
       volumes:
-        - ./db:/var/lib/postgresql/data
+        - ./db:/var/lib/postgresql/data          
       networks:
-        - hlove-network    
+        - web    
 
     app:
       depends_on:
         - postgresdb
+        - traefik
       #build: ./hlove-app #there has to be a docker file here that is then built
       image: ghcr.io/kenmusembi/hlove_backend:${IMAGE_VERSION}
       command: sh -c "cd hlove && npm install && npm start"      
@@ -69,15 +87,20 @@ services:
       volumes:
         - ./:/hlove        
       networks:
-        - hlove-network
+        - web
       labels:
-      - "traefik.http.routers.app.rule=Host(`app.docker.localhost`)"  
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`localhost`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.services.app.loadbalancer.server.port=3000"
     
-volumes:
+volumes:  
+  certs:
   db: ~
-  hlove:     
+  hlove: 
 
-networks:
-  hlove-network:
-    driver: bridge
+networks:  
+  web:
+    external: true
+    driver: bridge      
   
